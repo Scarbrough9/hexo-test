@@ -1,0 +1,35 @@
+/**
+ * Carbon Styles (carbon_styles.scss)
+ *
+ * This file represents the primary stylesheet generated
+ * and utilized by the theme. It is namespaced to avoid
+ * any potential enqueuing conflicts.
+ *
+ * No actual styles should be entered directly to this file.
+ * All theme styles should be organized and included in this
+ * file using @import.
+ */
+
+/* Normalize reset */
+@import "node_modules/normalize.scss/normalize";
+
+/* Import settings */
+@import "settings/variables";
+@import "settings/mixins";
+
+/* Carbon Toolbox Styles (use as needed) */
+@import "toolbox/grid";
+@import "toolbox/forms-base";
+
+/* Import base styles */
+@import "base/global";
+@import "base/typography";
+
+/* Import layout styles */
+@import "layout/header";
+@import "layout/site";
+@import "layout/grid";
+@import "layout/footer";
+
+/* Import modular styles */
+@import "modules/page-transition";

@@ -1,0 +1,277 @@
+/***
+
+FORMS THEME STARTER
+
+***/
+
+// Form base font size - use if needed
+// form {
+// 	font-size: 16px;
+// }
+
+@mixin placeholder_styles {
+    &.placeholder { @content; }
+    &:-moz-placeholder { @content; }
+    &::-moz-placeholder { @content; }
+    &:-ms-input-placeholder { @content; }
+    &::-webkit-input-placeholder { @content; }
+}
+
+@mixin all_inputs {
+    textarea, select, input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="email"], input[type="submit"], input[type="month"], input[type="number"], input[type="password"], input[type="search"], input[type="tel"], input[type="text"], input[type="time"], input[type="url"], input[type="week"], input[type="file"], input[type="button"]{
+        @content;
+    }
+}
+
+%form-description-style {
+	font-size: 12px;
+	font-weight: normal;
+	font-style: italic;
+	color: $gray_35;
+	margin: 0.3em 0 1em 0;
+}
+
+/**
+Base Input Styles
+**/
+$input_padding_top: 0.7em;
+$input_padding_right: 1em;
+$input_padding_bottom: 0.7em;
+$input_padding_left: 1em;
+$input_padding: $input_padding_top $input_padding_right $input_padding_bottom $input_padding_left;
+$input_font_size: 1em;
+$input_color: $gray_70;
+$input_disabled_color: $gray_50;
+$input_box_shadow: none;
+$input_border_radius: 3px;
+$input_border_style: solid;
+$input_border_color: $gray_30;
+$input_border_focus_color: $gray_70;
+$input_border_width: 1px 1px 1px 1px;
+$input_background_color: $white;
+$input_background_disabled_color: $gray_10;
+$input_placeholder_color: $gray_30;
+$input_placeholder_disabled_color: $gray_30;
+
+@include all_inputs{
+	appearance: none;
+	background-color: $input_background_color;
+	background-image: none;
+	border-style: $input_border_style;
+	border-width: $input_border_width;
+	border-color: $input_border_color;
+	border-radius: $input_border_radius;
+	box-shadow: $input_box_shadow;
+	color: $input_color;
+	display: block;
+	font-size: $input_font_size;
+	padding: $input_padding;
+	width: 100%;
+
+	@include placeholder_styles {
+		color: $input_placeholder_color;
+	}
+	&[disabled],
+	&[readonly]{
+		cursor: not-allowed;
+		background-color: $input_background_disabled_color;
+		color: $input_disabled_color;
+		opacity: 1;
+
+		@include placeholder_styles {
+			color: $input_placeholder_disabled_color;
+		}
+	}
+
+	&::-ms-clear {
+		// emoves the 'x' from all IE inputs for easy clearing
+	    display: none;
+	}
+	&:focus{
+		outline: 0;
+		border-color: $input_border_focus_color;
+	}
+}
+
+/**
+Radio & Checkbox Base Styles
+**/
+input[type="radio"],
+input[type="checkbox"] {
+	appearance: none;
+	line-height: 20px;
+	height: 20px;
+	outline: 0;
+	text-align: center;
+	vertical-align: middle;
+	width: 20px;
+	min-width: 20px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	position: relative;
+	margin-top: -1px;
+
+	&[disabled]{
+		cursor: not-allowed;
+
+		label{
+			cursor: not-allowed;
+		}
+	}
+	+ label{
+		margin: 5px 0 5px -4px;
+		padding-left: 11px;
+		cursor: pointer;
+		line-height: 20px;
+		font-size: 1em;
+		font-weight: bold;
+		color: $gray_85;
+		display: inline-block;
+		font-style: normal;
+		max-width: 100%;
+	}
+}
+
+/**
+Radio Styles
+**/
+input[type="radio"]{
+	border-radius: 999px;
+	background-color: $gray_20;
+	background-image: url(../images/toolbox/radio-default.svg);
+	background-size: 14px;
+	background-position: 3px 3px;
+	&:hover{
+		background-image: url(../images/toolbox/radio-hover-checked.svg);
+	}
+	&:checked{
+		background-color: $gray_70;
+		background-image: url(../images/toolbox/radio-hover-checked.svg);
+	}
+}
+
+/**
+Checkbox Styles
+**/
+input[type="checkbox"]{
+	border-radius: 4px;
+	background-color: $gray_20;
+	background-size: 11px;
+	background-position: 5px 6px;
+	&:hover{
+		background-image: url(../images/toolbox/checkmark.svg);
+	}
+	&:checked{
+		background-color: $gray_70;
+		background-image: url(../images/toolbox/checkmark.svg);
+	}
+}
+
+/**
+File Upload Styles
+**/
+input[type="file"]{
+	cursor: pointer;
+}
+
+/**
+Select Styles
+**/
+select:not([multiple]){
+	background-image: url(../images/toolbox/chevron_down.svg);
+	background-size: calc(#{$input_padding_right} * 0.7);
+	background-repeat: no-repeat;
+	background-position: right $input_padding_right center;
+	padding-right: calc(#{$input_padding_right} * 2);
+
+	&::-ms-expand {
+	    display: none; //stupid IE shows it's own dropdown arrow
+	}
+}
+
+/**
+Multi-select Styles
+**/
+select[multiple]{
+	padding: 0;
+	resize: vertical;
+
+	option{
+		padding: $input_padding;
+	}
+}
+
+/**
+Textarea Styles
+**/
+textarea{
+	resize: vertical;
+}
+
+/**
+Fieldset Styles
+**/
+fieldset{
+
+}
+
+/**
+Submit Styles
+**/
+$submit_color: $white;
+$submit_background_color: $gray_85;
+$submit_padding: 0.45em 2em;
+$submit_margin: 1em 0;
+
+input[type="submit"],
+input[type="button"]{
+	// text-transform: uppercase;
+	font-weight: bold;
+	width: auto;
+	background-color: $submit_background_color;
+	color: $submit_color;
+	border: 0;
+	padding: $submit_padding;
+	margin: $submit_margin;
+
+	&:hover{
+
+	}
+
+	&[disabled] {
+
+	}
+}
+
+/**
+Input Button Styles
+**/
+input[type="button"]{
+	text-transform: none;
+}
+
+/**
+Label Styles
+**/
+$label_font_size: 1em;
+$label_color: $gray_85;
+$label_padding: 0;
+$label_margin: 1em 0 0.3em 0;
+
+label{
+	font-size: $label_font_size;
+	font-weight: bold;
+	color: $label_color;
+	display: inline-block;
+	max-width: 100%;
+	padding: $label_padding;
+	margin: $label_margin;
+}
+
+
+input + label,
+select + label,
+textarea + label{
+	// sub-label text
+	@extend %form-description-style;
+}

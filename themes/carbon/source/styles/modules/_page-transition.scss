@@ -1,0 +1,36 @@
+/**
+ * Page Transition
+ */
+
+$pageTransitionSpeed: .5s;
+
+.page-transition-wrapper {
+    position: relative;
+    @include clear;
+}
+
+.page-transition-screen {
+    background-color: #ffffff;
+    opacity: 1;
+    position: absolute;
+    top: 0rem; right: 0rem; bottom: 0rem; left: 0rem;
+    z-index: 10000;
+}
+
+.page-loaded .page-transition-screen {
+    opacity: 0;
+    transition: transform 0s $pageTransitionSpeed*3, opacity $pageTransitionSpeed*3 .5s;
+    transform: scaleX(0);
+}
+
+.page-changing.page-loaded .page-transition-screen {
+    opacity: 1;
+    transition: transform 0s 0s, opacity $pageTransitionSpeed 0s;
+    transform: scaleX(1);
+}
+
+.page-changed.page-loaded .page-transition-screen {
+    opacity: 0;
+    transition: transform 0s $pageTransitionSpeed*3, opacity $pageTransitionSpeed*3 0s;
+    transform: scaleX(0);
+}

@@ -1,0 +1,125 @@
+/***
+
+CARBON GRID
+
+Using the Grid
+
+This is a very simple grid that uses media queries and Sass mixins to setup
+a semantic grid that requries no markup classification. Simply `@include grid`
+to the element you wish to use as your container. Apply column settings to
+the elements within the container be using `@include column_span(num)`.
+
+You can use media queries to alter column widths based on break points. You
+can also set custom parameters in the `grid` mixin should you need an
+instance of the grid that requires settings that differ from the global grid,
+below are some examples of how that would look:
+
+// Default usage might look like this
+.carbon-grid {
+    @include grid();
+
+    &__block {
+        @include column_span(6);
+
+        @include mq(768px) {
+            @include column_span(3);
+        }
+    }
+
+    &__block-inner {
+        background-color: rgba(blue, .3);
+        padding: 1rem;
+    }
+}
+
+// Custom usage would be like this
+.custom-grid {
+    @include grid(4px, 768px, 8);
+
+    &__block {
+        @include column_span(4, 768px, 8);
+
+        @include mq(1024px) {
+            @include column_span(2, 768px, 8);
+        }
+    }
+
+    &__block-inner {
+        background-color: rgba(blue, .3);
+        padding: 1rem;
+    }
+}
+
+
+Custom Settings
+
+The default grid settings can be overwritten if you
+choose to do so. You can either copy the variables
+below and paste them in your project variables file,
+or simply manage these variables in this file (above
+the GRID: Default Settings line).
+
+$grid_gutter: 1rem;
+$grid_start: 480px;
+$grid_columns: 12;
+
+***/
+
+// GRID: Default Settings
+$grid_gutter: if(global-variable-exists('grid_gutter'), $grid_gutter, 1rem);
+$grid_gutter_outer: if(global-variable-exists('grid_gutter_outer'), $grid_gutter_outer, true);
+$grid_columns: if(global-variable-exists('grid_columns'), $grid_columns, 12);
+$grid_columns_start: if(global-variable-exists('grid_start'), $grid_columns_start, 480px);
+
+// GRID: Wrapper
+@mixin grid(
+    $this_grid_gutter: $grid_gutter,
+    $this_grid_columns_start: $grid_columns_start,
+    $this_grid_gutter_outer: $grid_gutter_outer
+    ){
+    padding: $this_grid_gutter/2;
+    @include clear;
+
+    @if $this_grid_gutter_outer {
+        margin-left: -$this_grid_gutter/2;
+        margin-right: -$this_grid_gutter/2;
+        overflow: hidden;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    & > * {
+        padding: $this_grid_gutter/2;
+        width: 100%;
+
+        @include mq($this_grid_columns_start) {
+            float: left;
+            padding: $this_grid_gutter/2;
+        }
+
+        @include mq_range(0px, $this_grid_columns_start) {
+            width: 100%!important;
+        }
+    }
+
+    & + .grid {
+        margin-top: -$this_grid_gutter/2;
+        padding-top: 0!important;
+    }
+
+    .grid-block & {
+        margin-top: -$this_grid_gutter/2;
+        margin-bottom: -$this_grid_gutter/2;
+        padding-top: 0!important;
+        padding-bottom: 0!important;
+    }
+}
+
+// GRID: Column Span
+@mixin column_span(
+    $columns,
+    $this_grid_columns: $grid_columns
+    ){
+    $this_width: percentage($columns/$this_grid_columns);
+    width: $this_width;
+}

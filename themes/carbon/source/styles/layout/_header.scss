@@ -1,0 +1,13 @@
+/**
+ * Header Styles
+ */
+.site-header {
+    background-color: $gray_10;
+    padding: 2rem;
+    transition: transform .5s ease-in;
+    transform: translateY(-100%);
+}
+
+.page-loaded .site-header {
+    transform: translateY(0);
+}

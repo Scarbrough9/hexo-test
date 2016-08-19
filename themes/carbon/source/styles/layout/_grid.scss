@@ -1,0 +1,33 @@
+/**
+ * Grid Styles
+ *
+ * See `toolbox/_grid.scss` for instructions
+ */
+.grid {
+    @include grid();
+}
+
+.grid-block {
+    @include column_span(6);
+
+    .grid--two & {
+        @include mq(768px) {@include column_span(6);}
+    }
+
+    .grid--three & {
+        @include mq(768px) {@include column_span(4);}
+    }
+
+    .grid--four & {
+        @include mq(768px) {@include column_span(3);}
+    }
+
+    .grid--five & {
+        @include mq(768px) {@include column_span(2,10);}
+    }
+}
+
+.grid-block__inner {
+    background-color: $gray_10;
+    padding: 4rem 1rem;
+}

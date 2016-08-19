@@ -1,0 +1,27 @@
+/***
+
+Global Styles
+
+Global styles are designed to handle some overarching settings
+such as viewport settings and box sizing.
+
+Styles added to this file should be limited to styles applied
+globally to base level elements.
+
+***/
+
+// Set viewport options
+@-webkit-viewport {width: device-width;}
+@-mos-viewport {width: device-width;}
+@-ms-viewport {width: device-width;}
+@-o-viewport {width: device-width;}
+@viewport {width: device-width;}
+
+// Set box sizing
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html {}
+
+body {}
