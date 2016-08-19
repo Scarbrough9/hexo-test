@@ -5,6 +5,7 @@
  */
 const $ = require('jquery');
 const entryPage = window.location.href;
+const entryTitle = document.title;
 
 /**
  * Animations
@@ -30,8 +31,9 @@ function pageChangedAnimation() {
  */
 
 /* Sequence for the animations and content loading */
-function changePage(state) {
+function changePage(state, is_popstate) {
     var url = (state === null) ? entryPage : state.url;
+    console.log(history);
     pageChangingAnimation();
     setTimeout(function() {
         loadNewContent(url).promise().done(pageChangedAnimation);
@@ -41,7 +43,8 @@ function changePage(state) {
 /* Extend pushState to include the changePage function */
 (function(extendPushState) {
     history.pushState = function(state) {
-        changePage(state, entryPage);
+        changePage(state, false);
+        // this.pushState.arguments[1]
         return extendPushState.apply(this, arguments);
     };
 })(history.pushState);
@@ -58,7 +61,8 @@ function trackPageChange(location) {
         ga('set', 'page', location);
         ga('send', 'pageview');
     } else {
-        console.log('GA tracking not enabled');
+        // If needed, console to test if Google Analytics is enabled
+        // console.log('GA tracking not enabled');
     }
 }
 
@@ -71,16 +75,14 @@ $(window).on('load', initialPageAnimation);
 
 /* Fire the changePage function when something like the back button is clicked */
 $(window).on('popstate', function(event) {
-    changePage(event.originalEvent.state);
+    changePage(event.originalEvent.state, true);
 });
 
 /* Trigger a page change & transition */
 $('body').on('click', '[data-type="page-transition"]', function(event){
     event.preventDefault();
     if(window.location != this.href) {
-        history.pushState({ url: this.href }, '', this.href);
+        history.pushState({ url: this.href }, $(this).attr('title'), this.href);
         trackPageChange($(this).attr('href'));
     }
-    // window.location != this.href ? history.pushState({ url: this.href }, '', this.href) : false;
-    // window.location != this.href ? false : trackPageChange($(this).attr('href'));
 });

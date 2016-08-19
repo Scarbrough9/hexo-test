@@ -12,8 +12,8 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://scarbrough9.github.io/hexo-sample/
-root: https://scarbrough9.github.io/hexo-sample/
+url: https://scarbrough9.github.io/hexo-test
+root: /hexo-test/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -21,8 +21,8 @@ permalink_defaults:
 menus:
   primary:
     Home: '/'
-    About: '/about'
-    Intro: '/intro'
+    About: '/about/'
+    Intro: '/intro/'
 
 # Directory
 source_dir: source
@@ -76,7 +76,7 @@ theme: carbon
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/Scarbrough9/hexo-sample
+  repo: https://github.com/Scarbrough9/hexo-test.git
   branch: gh-pages
   message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
 
