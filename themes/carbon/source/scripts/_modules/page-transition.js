@@ -3,18 +3,17 @@
  *
  * Handling of internal links that load page content via pushState and AJAX
  */
-const $ = require('jquery');
-const entryPage = window.location.href;
-const entryTitle = document.title;
+var imagesLoaded = require('imagesloaded');
+var $ = require('jquery');
+var entryPage = window.location.href;
+var entryTitle = document.title;
+
+/* Use imagesLoaded as jQuery plugin */
+imagesLoaded.makeJQueryPlugin($);
 
 /**
  * Animations
  */
-
-/* Initial animation */
-function initialPageAnimation() {
-    $('body').addClass('page-loaded');
-}
 
 /* Page changing animation (transition begins) */
 function pageChangingAnimation() {
@@ -23,7 +22,9 @@ function pageChangingAnimation() {
 
 /* Page changed animation (transition ends) */
 function pageChangedAnimation() {
-    $('body').addClass('page-changed').removeClass('page-changing');
+    $('main').imagesLoaded().done(function() {
+        $('body').addClass('page-changed').removeClass('page-changing');
+    });
 }
 
 /**
@@ -33,10 +34,9 @@ function pageChangedAnimation() {
 /* Sequence for the animations and content loading */
 function changePage(state, is_popstate) {
     var url = (state === null) ? entryPage : state.url;
-    console.log(history);
     pageChangingAnimation();
     setTimeout(function() {
-        loadNewContent(url).promise().done(pageChangedAnimation);
+        loadNewContent(url);
     }, 500);
 }
 
@@ -44,15 +44,25 @@ function changePage(state, is_popstate) {
 (function(extendPushState) {
     history.pushState = function(state) {
         changePage(state, false);
-        // this.pushState.arguments[1]
         return extendPushState.apply(this, arguments);
     };
 })(history.pushState);
 
 /* Pull content from the new URL and insert into the DOM */
 function loadNewContent(url) {
-    $('main').load(url + ' main > *');
-    return $('main');
+    $.ajax({
+        url: url,
+        complete: pageChangedAnimation,
+        success: function (response) {
+            var $newTitle = $(response).filter('title').text();
+            var $newMain = $(response).find('main');
+            $('main').replaceWith($newMain[0]);
+            document.title = $newTitle;
+        },
+        error: function () {
+            $('main').html('<p>Sorry, an error occurred!</p>');
+        }
+    });
 }
 
 /* Make sure that Google Analytics is accounted for (see docs at https://goo.gl/THP4WQ) */
@@ -69,9 +79,6 @@ function trackPageChange(location) {
 /**
  * Event handlers
  */
-
-/* Fire the initial page load animations */
-$(window).on('load', initialPageAnimation);
 
 /* Fire the changePage function when something like the back button is clicked */
 $(window).on('popstate', function(event) {

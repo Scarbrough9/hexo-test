@@ -21,6 +21,7 @@
     "hexo-renderer-webpack": "^0.4.0",
     "hexo-server": "^0.2.0",
     "hexo-uglify": "0.0.3",
+    "imagesloaded": "^4.1.0",
     "jquery": "^3.1.0",
     "normalize.scss": "^0.1.0"
   }
